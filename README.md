@@ -2,14 +2,22 @@
 
 练习mvp框架搭建，梳理知识点，练习常用开源框架的使用
 
-	用到开源框架有：
-	RxJava2，
-	Retrfoit2，
-	GreenDao3,
-	ButterKnife，
-	Dagger2，
-	Glide，
-	XRecyclerView
+用到开源框架有：
+
+[RxJava2](https://github.com/ReactiveX/RxJava)，
+
+[Retrfoit2](https://github.com/square/retrofit)，
+
+[GreenDao3](https://github.com/greenrobot/greenDAO),
+
+[ButterKnife](https://github.com/JakeWharton/butterknife)，
+
+[Dagger2](https://github.com/google/dagger)，
+
+[Glide](https://github.com/bumptech/glide)，
+
+[XRecyclerView](https://github.com/jianghejie/XRecyclerView)
+
 
 描述
 
@@ -33,11 +41,12 @@
 
 
 
+感谢[@代码家](https://github.com/daimajia) 提供的数据
 
-感谢@代码家 提供的数据
 
+感谢[@jianghejie](https://github.com/jianghejie) XRecyclerView作者，框架很好用
 
-感谢@jianghejie XRecyclerView作者，框架很好用
+外国的框架就不谢了，反正人家也看不懂中文不是？
 
 参考配置：   
 
