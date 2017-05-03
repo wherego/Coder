@@ -15,7 +15,18 @@
 
 	使用dagger2隔离v层和p层，retrfoit2+rxjava2 请求网络数据（数据来自gank.io@daimaja）
 
+	封装七牛云的图片处理操作（一部分常用的）
+
+	glide底层切换为okhttp，自定义图片缓存和本地缓存
+
+	封装webView,链式设置，用着舒爽
+
 	ui方面还没怎么写，随便写了两个界面，后续有时间继续完善
+
+	
+	图标来自于iconfont
+	在该网站将svg格式图片转换为xml格式
+	http://www.ikabi.com/svg_android_xml/
 
 
 
