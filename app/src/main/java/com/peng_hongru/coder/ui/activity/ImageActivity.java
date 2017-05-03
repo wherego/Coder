@@ -3,6 +3,7 @@ package com.peng_hongru.coder.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -23,7 +24,6 @@ import com.peng_hongru.coder.module.dao.DbHelper;
 import com.peng_hongru.coder.module.net.bean.Information;
 import com.peng_hongru.coder.presenter.activity.ImagePresenter;
 import com.peng_hongru.coder.utils.ImageLoader;
-import com.peng_hongru.coder.utils.QiNiuUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,11 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import io.reactivex.Flowable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -78,6 +83,7 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener 
     protected void onPause() {
         super.onPause();
         presenter.onPause();
+        mContentView.setDrawingCacheEnabled(false);
     }
 
     public static Intent getStartIntent(Context context, ArrayList<Information> informations, int position) {
@@ -107,7 +113,7 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener 
 
         collectionButton.setOnClickListener(this);
         saveButton.setOnClickListener(this);
-
+        mContentView.setDrawingCacheEnabled(true);
         refreshImage(position);
 
         refreshCollectionButton(datas.get(position));
@@ -141,11 +147,12 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener 
     private void refreshImage(int position) {
         ImageLoader.loadImage(
                 this,
-                QiNiuUtils.setUrl(datas.get(position).getUrl())
+                datas.get(position).getUrl(),
+               /* QiNiuUtils.setUrl(datas.get(position).getUrl())
                         .slim()
                         .size(this, true)
                         .interlace(true)
-                        .commit(),
+                        .commit(),*/
                 mContentView
         );
         setImagePosition(position, datas.size());
@@ -309,7 +316,32 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener 
                 refreshCollectionButton(datas.get(position));
                 break;
             case R.id.save_button:
-                //// TODO: 2017/5/3 将图片保存至本地
+                Flowable.just(mContentView.getDrawingCache())
+                        .observeOn(Schedulers.io())
+                        .filter(new Predicate<Bitmap>() {
+                            @Override
+                            public boolean test(@NonNull Bitmap bitmap) throws Exception {
+                                return bitmap != null;
+                            }
+                        })
+                        .subscribe(new Consumer<Bitmap>() {
+                            @Override
+                            public void accept(@NonNull Bitmap bitmap) throws Exception {
+                                ImageLoader.saveImageToGallery(ImageActivity.this, bitmap);
+                                mContentView.setDrawingCacheEnabled(false);
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(@NonNull Throwable throwable) throws Exception {
+                                throwable.printStackTrace();
+                            }
+                        });
+                /*try {
+                    Bitmap bitmap = mContentView.getDrawingCache();
+                    ImageLoader.saveImageToGallery(this, bitmap);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }*/
                 break;
         }
     }

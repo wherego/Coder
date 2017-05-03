@@ -1,6 +1,5 @@
 package com.peng_hongru.coder.presenter.activity;
 
-import com.orhanobut.logger.Logger;
 import com.peng_hongru.coder.module.net.bean.Information;
 import com.peng_hongru.coder.module.net.bean.ResponseInfo;
 import com.peng_hongru.coder.presenter.base.BasePresenter;
@@ -70,7 +69,6 @@ public class ImagePresenter extends BasePresenter {
                         new Consumer<ResponseInfo<Information>>() {
                             @Override
                             public void accept(@NonNull ResponseInfo<Information> information) throws Exception {
-                                Logger.d("网络请求成功");
                                 if (information != null && !information.isError() && visible) {
                                     List<Information> results = information.getResults();
                                     if (results == null || results.size() == 0) {
