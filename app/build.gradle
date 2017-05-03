@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+//dagger2 生成代码配置2 依赖apt插件
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.peng_hongru.coder"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug { // debug 模式 可用可不用
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+    /*针对greenDao的一些配置*/
+    greendao {
+        schemaVersion 1 //数据库版本号
+        daoPackage 'com.peng_hongru.greendao.dao' //自动生成的工具类的包名
+        targetGenDir 'src/main/java' //java路径
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    // add library
+    compile 'com.android.support:support-v4:25.3.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:cardview-v7:25.3.1'
+    compile 'com.android.support:support-vector-drawable:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.dagger:dagger:2.6'
+    compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'com.youth.banner:banner:1.4.9'
+    compile 'com.jcodecraeer:xrecyclerview:1.3.2'
+    compile 'com.orhanobut:logger:1.15'
+    compile 'org.greenrobot:greendao:3.2.2'
+    testCompile 'junit:junit:4.12'
+    apt 'com.google.dagger:dagger-compiler:2.6'
+}
